@@ -7,44 +7,45 @@ def play_game(game, who):
 
 
 
-msg = "newUser " + input("Username:")
+def run_client():
+    msg = "newUser " + input("Username:")
 
-my_ip = socket.gethostbyname(socket.gethostname())
-ip = '192.168.0.97'
-port = 69
-who = None
+    my_ip = socket.gethostbyname(socket.gethostname())
+    ip = '192.168.0.18'
+    port = 69
+    who = None
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-s.connect((ip, port))
-print("connected")
+    s.connect((ip, port))
+    print("connected")
 
-#This send the user name
-s.send(msg.encode())
+    # This send the user name
+    s.send(msg.encode())
 
-while True:
+    while True:
 
-    data = s.recv(1024).decode().split()
-    if (len(data) > 0):
+        data = s.recv(1024).decode().split()
+        if (len(data) > 0):
 
-        if(data[0] == "finished"):
-            s.close()
-            break
+            if (data[0] == "finished"):
+                s.close()
+                break
 
-        elif(data[0] == "yourTurn"):
-            print(data[2])
-            s.send(play_game(data[2], data[1]).encode())
+            elif (data[0] == "yourTurn"):
+                print(data[2])
+                s.send(play_game(data[2], data[1]).encode())
 
-        elif(data[0] == "youWin"):
-            print("Nice Job")
+            elif (data[0] == "youWin"):
+                print("Nice Job")
 
-        elif(data[0] == "youLoose"):
-            print("GG EASY NOOOOOB")
+            elif (data[0] == "youLoose"):
+                print("GG EASY NOOOOOB")
 
-        elif(data[0] == "begin"):
-            print(data[1] + " vs " + data[2])
-            print("game: " + data[3])
+            elif (data[0] == "begin"):
+                print(data[1] + " vs " + data[2])
+                print("game: " + data[3])
 
 
-
+run_client()
 
