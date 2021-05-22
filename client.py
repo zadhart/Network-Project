@@ -38,9 +38,13 @@ def run_client():
 
             elif (data[0] == "youWin"):
                 print("Nice Job")
+                s.close()
+                break
 
             elif (data[0] == "youLoose"):
                 print("GG EASY NOOOOOB")
+                s.close()
+                break
 
             elif (data[0] == "begin"):
                 print(data[1] + " vs " + data[2])
