@@ -1,6 +1,7 @@
 import socket
 import threading
 
+#This function search the game for a winner
 def checkgame(game):
 
     #Check the diagonals of the matrix and return a winner
@@ -59,16 +60,20 @@ def checkgame(game):
         return (False)
 
 
+#This function handles the game between two players
 def playgame(playerX, playerO, players_data):
-    game = "000000000"
+
+    game = "000000000" #Initialize the game
 
     data = ""
 
+    #Send the game to the players
     data = "begin " + str(playerX) + " " + str(playerO) + " " + game
     players_data["playerX"]["connection"].send(data.encode())
     players_data["playerO"]["connection"].send(data.encode())
 
     while True:
+        #Get the response from player X
         data = "yourTurn X " + game
         players_data["playerX"]["connection"].send(data.encode())
         response = players_data["playerX"]["connection"].recv(1024).decode().split()
@@ -76,9 +81,10 @@ def playgame(playerX, playerO, players_data):
         if(response[0] == "play"):
             game = response[2]
 
-            check = checkgame(str(game))
+            check = checkgame(str(game)) #Check the game for a winner
             if(check != False):
 
+                #Check if the player X won
                 if(check == "X"):
                     data = "youWin"
                     players_data["playerX"]["connection"].send(data.encode())
@@ -88,6 +94,7 @@ def playgame(playerX, playerO, players_data):
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
+                #Check if the player O won
                 else:
                     data = "youWin"
                     players_data["playerO"]["connection"].send(data.encode())
@@ -99,6 +106,7 @@ def playgame(playerX, playerO, players_data):
 
                 break
 
+        #Get the response from player O
         data = "yourTurn O " + game
         players_data["playerO"]["connection"].send(data.encode())
         response = players_data["playerO"]["connection"].recv(1024).decode().split()
@@ -128,7 +136,6 @@ def playgame(playerX, playerO, players_data):
                     players_data["playerX"]["connection"].close()
 
                 break
-
 
 
 def run_server():
@@ -168,7 +175,6 @@ def run_server():
             player_queue.pop(0)
 
             threading.Thread(target=playgame, args=(playerX, playerO, players_data)).start()
-            #playgame(playerX, playerO, players_data)
 
             print("Created a new thread")
 
