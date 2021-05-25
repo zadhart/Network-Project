@@ -1,11 +1,13 @@
 import socket
 import threading
 
-#This function search the game for a winner
-def checkgame(game):
 
-    #Check the diagonals of the matrix and return a winner
-    if(int(game[0]) + int(game[4]) + int(game[8]) == 6):
+# This function search the game for a winner
+def checkgame(game):
+    if (game == "000000000"):
+        return False
+    # Check the diagonals of the matrix and return a winner
+    elif(int(game[0]) + int(game[4]) + int(game[8]) == 6):
         return("O")
 
     elif(int(game[2]) + int(game[4]) + int(game[6]) == 6):
@@ -17,7 +19,7 @@ def checkgame(game):
     elif (int(game[2]) + int(game[4]) + int(game[6]) == 15):
         return ("X")
 
-    #Check the columns of the matrix and return a winner
+    # Check the columns of the matrix and return a winner
     elif (int(game[0]) + int(game[3]) + int(game[6]) == 6):
         return ("O")
 
@@ -36,7 +38,7 @@ def checkgame(game):
     elif (int(game[2]) + int(game[5]) + int(game[8]) == 15):
         return ("X")
 
-    #Check the rows of the matrix and return a winner
+    # Check the rows of the matrix and return a winner
     elif (int(game[0]) + int(game[1]) + int(game[2]) == 6):
         return ("O")
 
@@ -55,7 +57,7 @@ def checkgame(game):
     elif (int(game[6]) + int(game[7]) + int(game[8]) == 15):
         return ("X")
 
-    #If there's no winner, then return false
+    # If there's no winner, then return false
     else:
         return (False)
 
@@ -90,7 +92,7 @@ def playgame(playerX, playerO, players_data):
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
-                    data = "youLoose"
+                    data = "youLoose " + str(game)
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
@@ -100,7 +102,7 @@ def playgame(playerX, playerO, players_data):
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
-                    data = "youLoose"
+                    data = "youLoose " + str(game)
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
@@ -122,7 +124,7 @@ def playgame(playerX, playerO, players_data):
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
-                    data = "youLoose"
+                    data = "youLoose " + str(game)
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
@@ -131,7 +133,7 @@ def playgame(playerX, playerO, players_data):
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
-                    data = "youLoose"
+                    data = "youLoose " + str(game)
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
