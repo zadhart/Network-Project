@@ -75,109 +75,158 @@ def playgame(playerX, playerO, players_data):
     players_data["playerO"]["connection"].send(data.encode())
 
     while True:
-        #Get the response from player X
+        #Send the data of the to player X
         data = "yourTurn X " + game
         players_data["playerX"]["connection"].send(data.encode())
+
+        #Getting the response of player X
         response = players_data["playerX"]["connection"].recv(1024).decode().split()
 
+        #If the code of message is "play", then make the move
         if(response[0] == "play"):
+
+            #Get the game from the response
             game = response[2]
 
             check = checkgame(str(game)) #Check the game for a winner
+
+            #Check if someone won
             if(check != False):
 
                 #Check if the player X won
                 if(check == "X"):
+                    #Send "youWin" for the winner, and closes the socket
                     data = "youWin"
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
+                    #Send "youLoose" for the loser, and closes the socket
                     data = "youLoose " + str(game)
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
                 #Check if the player O won
                 else:
+                    #Send "youWin" for the winner, and closes the socket
                     data = "youWin"
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
+                    #Send "youLoose" for the loser, and closes the socket
                     data = "youLoose " + str(game)
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
+                #If someone won, then finish the thread
                 break
 
-        #Get the response from player O
+        #Sen the data of the game to player O
         data = "yourTurn O " + game
+
+        # Get the response from player O
         players_data["playerO"]["connection"].send(data.encode())
         response = players_data["playerO"]["connection"].recv(1024).decode().split()
 
+        #If the code of message is "play", then make the move
         if (response[0] == "play"):
+
+            #Get the game from the response
             game = response[2]
 
-            check = checkgame(str(game))
+            check = checkgame(str(game)) #Check the game for a winner
+
+            #Check if someone won
             if (check != False):
 
+                #Check if the player X won
                 if (check == "X"):
+
+                    #Send "youWin" for the winner, and closes the socket
                     data = "youWin"
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
+                    #Send "youLoose" for the loser, and closes the socket
                     data = "youLoose " + str(game)
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
+                #Check if the player O won
                 else:
+                    #Send "youWin" for the winner, and closes the socket
                     data = "youWin"
                     players_data["playerO"]["connection"].send(data.encode())
                     players_data["playerO"]["connection"].close()
 
+                    #Send "youLoose" for the loser, and closes the socket
                     data = "youLoose " + str(game)
                     players_data["playerX"]["connection"].send(data.encode())
                     players_data["playerX"]["connection"].close()
 
+                #If someone won, then finish the thread
                 break
 
 
+#This function will wait for new players
 def run_server():
+
+    #Create the socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     print("Socket successfully created")
 
+    #Uses the port 69
     port = 69
 
+    #Create the queue of players, and some control variables
     clients = {}
     games = {}
     player_queue = []
 
+    #Make the socket listen on the given port
     s.bind(('', port))
-
-    s.listen(5)
+    s.listen(10)
     print("socket is listening")
 
+    #Make the server listen for new players
     while True:
         if (len(player_queue) < 2):
+            #Acept new connections and get their names
             c, addr = s.accept()
-            name = c.recv(1024).decode().split()[1]
-            clients[name] = {"userName": name, "addr": addr, "connection": c}
+            name = c.recv(1024).decode()
+            #The server will only accept players, when the name lenght is bigger than 0
+            if(len(name) > 0):
+                #Get the game from the message
+                name = name.split()[1]
 
-            print('Got connection from', addr)
+                #Saves the name and the connection for future use
+                clients[name] = {"userName": name, "addr": addr, "connection": c}
 
-            clients[name]["connection"].send('OK'.encode())
+                print('Got connection from', addr)
 
-            player_queue.append(str(name))
-            print(player_queue)
+                #Send a response for the client
+                clients[name]["connection"].send('OK'.encode())
 
+                #Put the player on the player queue
+                player_queue.append(str(name))
+                print(player_queue)
+
+        #If there's 2 players on the queue then, make the players play with each other
         else:
+            #Get the name of the players from te queue
             playerX = player_queue[0]
             playerO = player_queue[1]
+
+            #Get the data of the players from the database
             players_data = {"playerO": clients[playerO], "playerX": clients[playerX]}
 
+            #Removes the players from the queue
             player_queue.pop(0)
             player_queue.pop(0)
 
+            #Start a new thread of the function playgame, with the data of the players
             threading.Thread(target=playgame, args=(playerX, playerO, players_data)).start()
 
             print("Created a new thread")
 
+#Runs the server
 run_server()
