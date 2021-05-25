@@ -1,74 +1,64 @@
 import socket
+from jogo_da_velha import convert_output
 
-#This function return a message, that will be sent to the server
-#Rafa essa função vc pode só colocar junto com suas putras funções onde quer que vc coloque
-# o código da run_client()s
+
+# This function return a message, that will be sent to the server
 def play_game(game, who):
 
-    #Rafa aqui vc tem que colocar a matrix depois da jogada convertida em uma string para enviar para o servidor
-    #tipo 000000000 lembre que 2 = O e 5 = X
-    #vc pode apagar esse input e passar a matrix direto como parametro da função
-    game = str(input("Digite o jogo: "))
-
-    #Aqui ele vai retornar a mensagem formatada tipo: play X 000050000
     return str("play " + who + " " + game)
 
 
-def run_client():
-    #Rafa aqui vc tem que pegar o nome do usuário direto da tela do tKinter e colocar nessa parte do input
-    msg = "newUser " + input("Username:")
+def convert_output(matrix):
+    output = ""
+    for i in matrix:
+        for j in i:
+            if j == 1:
+                output = output + "5"
+            else:
+                output = output + str(j)
+    print(output)
+    return output
 
-    #Rafa isso aqui serve para saber o ip da máquina que está rodando o servidor
-    ip = str(input("Digite o ip do servidor: "))
 
-    #Vc pode mudar a porta mas tem que colocar a msm porta no codigo do servidor
-    port = 69
+def convert_input(string):
+    matrix = [[0,0,0],[0,0,0], [0,0,0]]
+    i = 0
+    while i < 9:
+        if string[i] == "5":
+            matrix[i//3][i%3] = 1
+        else:
+            matrix[i//3][i%3] = int(string[i])
+        i+=1
 
-    #Esse who é importante eu acho mas nn está sendo utilizado mas é melhor nn tirar
-    who = None
+    return matrix
 
-    #Essa parte cria o socket e conecta com o servidor
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    s.connect((ip, port))
-    print("connected")
+def print_matrix(matrix):
+    for i in matrix:  # for each row in the matrix
+        print(i)      # print the row
 
-    # This send the user name
-    s.send(msg.encode())
 
-    while True:
-        #O cliente sempre está pronto para receber uma mensagem do servidor, e ele vai transformar a mensagem em uma
-        #lista de strings
-        data = s.recv(1024).decode().split()
+# Function that write new values in the matrix given a position
+# Parameters: board matrix; turn control variable; x coordinate; y coordinate
+# Return: the board matrix and turn control variable
+def modify(m, v, x, y, sim):
+    if m[x][y] == 0:     # if the given position of the matrix is unset
+        if sim == "X":     # if player 2 turn
+            m[x][y] = 1  # write 2 as the new value of the given position
+        else:            # if player 1 turn
+            m[x][y] = 2  # write 1 as the new value of the given position
+        return m, v + 2, True  # return the new board matrix and the turn control variable increased
 
-        #Se a lista é maior do que 0 então o cliente realmente recebeu uma mensagem
-        if (len(data) > 0):
-            #Se a mensagem é yourTurn ele vai chamar a função que pede para o usuário fazer a jogada
-            #A mensagem enviada pelo servidor é tipo: yourTurn X 000000000
-            if (data[0] == "yourTurn"):
-                print(data[2])
-                s.send(play_game(data[2], data[1]).encode())
+    else:                # if the position is set with a value different from zero an illegal position
+        print("Inválido, informe novas coordenadas")
+        return m, v, False      # return the matrix and the turn control var without modifications
 
-            #Aqui vc só tem que mostrar a tela de vitoria quando o servidor mandar essa mensagem
-            #E depois encerre o jogo como vc bem entender
-            elif (data[0] == "youWin"):
-                print("Nice Job")
-                s.close()
-                break
 
-            #Msm coisa só que dessa vez mostre a tela de derrota
-            elif (data[0] == "youLoose"):
-                print("GG EASY NOOOOOB")
-                s.close()
-                break
+def velha(string):
+    if(len(string) > 0):
+        for i in string:
+            if i == "0":
+                return False
+        return True
 
-            #Essa mensagem vc pode usar como uma verificação para sair da tela de espera e começar o jogo
-            #A mensagem enviada é tipo: begin Fulano Cicrano 000000000
-            elif (data[0] == "begin"):
-                print(data[1] + " vs " + data[2])
-                print("game: " + data[3])
-
-#Isso aqui chama a função que roda o client, vc pode tirar se quiser
-#mas vai precisar copiar o código da run_client() para um função do seu código
-run_client()
 
