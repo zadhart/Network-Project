@@ -6,10 +6,10 @@ Universidade Federal de Alagoas, ministrada
 pelo professor Leandro Sales de Melo.
 <br><br>
 O projeto consiste em um jogo da velha com conceitos de rede 
-implementados, para que assim o mesmo seja jogado em rede.
+implementados.
 A implementação da conexão foi feita usando funções primitivas
-de bibliotecas nativas do python: sockets e threading. Enquanto
-a interface gráfica e interatividade do jogo foi feita usando
+de bibliotecas nativas do python: sockets e thread. Enquanto
+a interface gráfica e interatividade do jogo foram feitas usando
 as bibliotecas pygame e tkinter.
 
 <br>
@@ -50,7 +50,7 @@ Para iniciar uma partida, deve ser pressionada a **tecla espaço** na janela
 do menu principal do jogo. Então o usuário será direcionado à uma sala de
 espera até que o segundo jogador conecte, quando isso ocorrer a partida
 terá início. 
-<br>
+<br><br>
 A marcação no tabuleiro é feita usando o **mouse**, basta que o jogador **clique
 com o botão esquerdo** na casa onde deseja demarcar seu símbolo. A partida 
 inicia com o movimento do jogador "X", após ele fazer um movimento válido, 
@@ -63,6 +63,9 @@ dessas circunstâncias o jogador será direcionado à tela do resultado da parti
 Para iniciar uma nova partida basta retroceder ao menu principal pressionando 
 a **tecla R** e após isso repetir todo o processo.
 
-
-
+## Referências
+- [Documentação da biblioteca Threading](https://docs.python.org/3/library/threading.html)
+- [Documentação da biblioteca Sockets](https://docs.python.org/3/library/socket.html)
+- [Documentação da biblioteca Tkinter](https://docs.python.org/3/library/tkinter.html#module-tkinter)
+- [Site principal com documentação do Pygame](https://www.pygame.org/docs/)
 
