@@ -27,7 +27,7 @@ Autoria do projeto
 * Todas as máquinas com instâncias abertas 
   estarem conectadas na mesma rede local;
 
-
+<br>
 ### Instruções
 Para executar o projeto primeiro é necessário o 
 download desse repositório compactado e a descompactação
@@ -62,7 +62,7 @@ O fim da partida ocorre em caso de vitória de um dos jogadores ou empate, em qu
 dessas circunstâncias o jogador será direcionado à tela do resultado da partida.
 Para iniciar uma nova partida basta retroceder ao menu principal pressionando 
 a **tecla R** e após isso repetir todo o processo.
-
+<br>
 ## Referências
 - [Documentação da biblioteca Threading](https://docs.python.org/3/library/threading.html)
 - [Documentação da biblioteca Sockets](https://docs.python.org/3/library/socket.html)
