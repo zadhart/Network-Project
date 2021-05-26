@@ -10,13 +10,13 @@ def play_game(game, who):
 # This function converts the board matrix returns and returns the board string for be sent to the server
 def convert_output(matrix):
     output = ""
-    for i in matrix:
-        for j in i:
+    for i in matrix:    # checks each row
+        for j in i:     # checks each column of the row
             if j == 1:
-                output = output + "5"
+                output = output + "5"  # in the string the X = 5, but in the matrix X = 1
             else:
                 output = output + str(j)
-    print(output)
+    # print(output)
     return output
 
 

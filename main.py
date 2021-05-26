@@ -180,9 +180,9 @@ def jogo_da_velha(game, matriz, window, s, symbol, user):
 
         for event in pygame.event.get():   # event's looping
             if event.type == pygame.QUIT:  # if user close the window, terminate the game and the connection
-                game = False
-                s.close()
-                pygame.quit()
+                game = False               # stopping the match
+                s.close()                  # closing socket conection
+                pygame.quit()              # quiting pygame
 
             if event.type == pygame.MOUSEBUTTONUP and turn:  # if user mouse click the board
                 pos = pygame.mouse.get_pos()        # getting mouse position
@@ -222,7 +222,8 @@ def jogo_da_velha(game, matriz, window, s, symbol, user):
                     game = False                     # stop running the match
                     draw_game(matriz, window, 255, user_s)  # redrawning the board
 
-        except:
+        except socket.timeout:
+            # if firt move of the match
             if symbol == "X" and matriz == [[0, 0, 0], [0, 0, 0], [0, 0, 0]]:
                 turn = True
             pass
