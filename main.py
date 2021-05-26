@@ -18,7 +18,7 @@ def waiting_room(window, user):
 
     # redes
     msg = "newUser " + user
-    ip = "192.168.0.107"
+    ip = "127.0.0.1"
     port = 69
     who = None
     s = socket.socket(AF_INET, SOCK_STREAM)
