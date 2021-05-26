@@ -13,6 +13,44 @@ Autoria do projeto
 <br>
 
 ## Execução do projeto
+
+###Pré requisitos
+
+###Instruções
 Para executar o projeto primeiro é necessário o 
 download desse repositório compactado e a descompactação
-do mesmo na sua máquina.
+do mesmo nas máquinas nas quais você pretende execultá-lo.
+<br><br>
+Após isso, deve ser executado o arquivo server.py, dando início
+ao servidor. (O servidor deve ser execultado apenas uma vez e 
+em uma das máquinas conectadas na rede local).
+<br><br>
+Com o servidor em execução, deve ser executado o arquivo main.py.
+A execução do mesmo pode ser feito de variadas formas, mas a mais 
+aconselhável é através do terminal ou de uma IDE como o pycharm.
+<br><br>
+Após iniciar quantas instâncias forem necessárias da main.py 
+nas máquinas, irá aparecer uma janela solicitando um nome de usuário
+que **não deve conter espaçamento**. Após autenticar um nome de usuário
+válido com o servidor aberto, a janela do menu inicial do jogo será gerada.
+<br><br>
+Para iniciar uma partida, deve ser pressionada a tecla espaço na janela
+do menu principal do jogo. Então o usuário será direcionado à uma sala de
+espera até que o segundo jogador conecte, quando isso ocorrer a partida
+terá início. 
+<br><br>
+A marcação no tabuleiro é feita usando o mouse, basta que o jogador clique
+na casa onde deseja demarcar seu símbolo. A partida inicia com o movimento 
+do jogador "X", após ele fazer um movimento válido, a vez passará para o 
+jogador "O" e assim consecutivamente até o fim da partida. É válido citar
+que o jogador só pode fazer seu movimento na sua vez, pois nesse jogo não há
+o conceito de "premove".
+<br><br>
+O fim da partida ocorre em caso de vitória e derrota ou empate, em qualquer
+dessas circunstâncias o jogador será direcionado à tela do resultado da partida.
+Para iniciar uma nova partida basta retroceder ao menu principal pressionando 
+a **tecla R** e após isso repetir todo o processo.
+
+
+
+
