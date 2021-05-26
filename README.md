@@ -22,8 +22,8 @@ Autoria do projeto
 ## Execução do projeto
 
 ### Pré requisitos
-* Biblioteca pygame instalada na máquina;
-* Biblioteca tkinter instalada na máquina;
+* Biblioteca pygame instalada na máquina  [Instalação seguindo documentação](https://www.pygame.org/wiki/GettingStarted);
+* Biblioteca tkinter instalada na máquina [Instalação seguindo documentação](https://www.tutorialspoint.com/how-to-install-tkinter-in-python);
 * Todas as máquinas com instâncias abertas 
   estarem conectadas na mesma rede local;
 <br>
@@ -40,6 +40,10 @@ em uma das máquinas conectadas na rede local).
 Com o servidor em execução, deve ser executado o arquivo main.py.
 A execução do mesmo pode ser feito de variadas formas, mas a mais 
 aconselhável é através do terminal ou de uma IDE como o pycharm.
+É válido citar que a main.py deve ser executada em instâncias 
+diferentes do terminal caso executadas na mesma máquina, por isso
+fica a sugestão do uso de uma IDE para execuções no mesmo sistema, 
+com uma execução rodando no terminal e outra na ide.
 <br><br>
 Após iniciar quantas instâncias forem necessárias da **main.py** 
 nas máquinas, irá aparecer uma janela solicitando um nome de usuário
