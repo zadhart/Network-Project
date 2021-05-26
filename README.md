@@ -8,9 +8,9 @@ pelo professor Leandro Sales de Melo.
 O projeto consiste em um jogo da velha com conceitos de rede 
 implementados.
 A implementação da conexão foi feita usando funções primitivas
-de bibliotecas nativas do python: sockets e thread. Enquanto
+de bibliotecas nativas do python: sockets e thread, enquanto
 a interface gráfica e interatividade do jogo foram feitas usando
-as bibliotecas pygame e tkinter.
+as bibliotecas externas pygame e tkinter.
 
 <br>
 Autoria do projeto
@@ -26,8 +26,8 @@ Autoria do projeto
 * Biblioteca tkinter instalada na máquina;
 * Todas as máquinas com instâncias abertas 
   estarem conectadas na mesma rede local;
-
 <br>
+
 ### Instruções
 Para executar o projeto primeiro é necessário o 
 download desse repositório compactado e a descompactação
