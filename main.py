@@ -11,23 +11,25 @@ from socket import AF_INET, SOCK_STREAM
 def waiting_room(window, user):
     other_player = False
     simbol = ""
-    font1 = pygame.font.SysFont('comicsans', 39)
-    x = 0
+    font1 = pygame.font.SysFont('comicsans', 39) # font definition for text elements
+    
     wait_message = ["Esperando por jogador.", "Esperando por jogador..",
-                    "Esperando por jogador..."]
+                    "Esperando por jogador..."]  # message list for text animation
+    x = 0                                        # text animation aux var
 
     # redes
-    msg = "newUser " + user
-    ip = "127.0.0.1"
-    port = 69
-    who = None
+    msg = "newUser " + user  # message for be sent to the server
+    ip = "127.0.0.1"         # localhost ip
+    port = 69                # port of the conection to the server
+    who = None               
+    # creating socket
     s = socket.socket(AF_INET, SOCK_STREAM)
-    s.settimeout(0.001)
-    s.connect((ip, port))
-    print("connected")
-    s.send(msg.encode())
+    s.settimeout(0.01)     # setting timeout for stop conflicts with pygame
+    s.connect((ip, port))  # connecting socket
+    # print("connected")   #  
+    s.send(msg.encode())   # socket sends message to the server
 
-    while not other_player:
+    while not other_player:   # waiting for another player joing the the server
         window.fill((0, 0, 0))
         text1 = font1.render(wait_message[x//300], True, (255, 255, 255))
         text2 = font1.render('Pressione C para retornar ao Menu Principal',
@@ -42,13 +44,16 @@ def waiting_room(window, user):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:   # if user press C key
                     s.close()
-                    return False, None, None        # return to the main menu
+                    return False, None, None  # return to the main menu
         try:
-            data = s.recv(1024).decode().split()
-            if len(data) > 1:
-                print(data[0])
-                if data[0] == "begin" or data[0] == "OKbegin":
-                    other_player = True
+            data = s.recv(1024).decode().split()  # receiving message and split into a string list 
+            
+            if len(data) > 1:  # if there is a message
+                # print(data[0])
+                if data[0] == "begin" or data[0] == "OKbegin": # other player connected
+                    other_player = True  # stoping waiting loop for start the match
+                
+                # determinating players symbols at the client-side
                 if data[1] == user:
                     simbol = "X"
                 if data[2] == user:
@@ -57,7 +62,7 @@ def waiting_room(window, user):
         except socket.timeout:
             pass
 
-    return True, s, simbol
+    return True, s, simbol  # returning other player state, socket and the symbol
 
 
 # Function that draws the layout of the main menu window
@@ -194,25 +199,27 @@ def jogo_da_velha(game, matriz, window, s, symbol, user):
                     s.send(play_game(game_board, symbol).encode())  # sending the message to the server
 
         try:
-            data = s.recv(1024).decode().split()
-            print(data)
-            if (len(data) > 0):
+            data = s.recv(1024).decode().split()  # trys recieve server's message
+            # print(data)
+            if (len(data) > 0):   # if there'is a message
                 if (data[0] == "yourTurn" and data[1] == symbol):
-                    turn = True
-                    print("F")
-                    matriz = convert_input(data[2])
+                    turn = True   # settig turn control variable for allow playe's move
+                    matriz = convert_input(data[2])         # converting message's board string to board matrix
                     draw_game(matriz, window, 255, user_s)  # redrawning the board
-                    pygame.display.update()
-                    if (velha(data[2])):
-                        game = False
-                        s.send(play_game(data[2], symbol).encode())
-                if (data[0] == "youWin"):
-                    mensagem = "Você venceu!"
-                    game = False
-                if (data[0] == "youLoose"):
-                    mensagem = "Você perdeu!"
-                    matriz = convert_input(data[1])
-                    game = False
+                    pygame.display.update()                 # updating the display
+                    
+                    if (velha(data[2])):  # if there's a draw
+                        game = False      # stop running the match
+                        s.send(play_game(data[2], symbol).encode())  # send the message to the server
+                        
+                if (data[0] == "youWin"):      # if player win
+                    mensagem = "Você venceu!"  # setting message of the result window
+                    game = False               # stop running the match
+                    
+                if (data[0] == "youLoose"):          # if player loose
+                    mensagem = "Você perdeu!"        # setting message of the result window
+                    matriz = convert_input(data[1])  # converting message's board string to board matrix
+                    game = False                     # stop running the match
                     draw_game(matriz, window, 255, user_s)  # redrawning the board
 
         except:
