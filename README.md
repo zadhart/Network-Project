@@ -14,9 +14,9 @@ Autoria do projeto
 
 ## Execução do projeto
 
-###Pré requisitos
+### Pré requisitos
 
-###Instruções
+### Instruções
 Para executar o projeto primeiro é necessário o 
 download desse repositório compactado e a descompactação
 do mesmo nas máquinas nas quais você pretende execultá-lo.
